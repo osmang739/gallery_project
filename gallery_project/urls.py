@@ -16,16 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django.http import HttpResponse
 from django.urls import path
-
-# Geçici bir ana sayfa görünümü (İleride kendi galeri view'ın ile değiştirebilirsin)
-def home_view(request):
-    return HttpResponse("<h1>Galeri Ana Sayfasına Hoş Geldiniz!</h1><a href='/login/'>Giriş Yap</a>")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_view, name='home'),
+    # Site ilk açıldığında doğrudan şık login sayfamız gelsin:
+    path('', auth_views.LoginView.as_view(), name='home'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]
