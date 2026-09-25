@@ -53,7 +53,7 @@ ROOT_URLCONF = 'gallery_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], # Veya klasörün tam yolunu belirtiyoruz
+        'DIRS': [BASE_DIR / 'templates'],  # Django'nun templates klasörünü bulmasını sağlar
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
