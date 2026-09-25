@@ -2,16 +2,188 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Giriş Yap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap | Resim Galerisi</title>
+    <style>
+        /* Genel Sayfa Stili */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f2f5; /* Hafif gri arka plan */
+            /* İsteğe bağlı: Arka plan görseli kullanmak isterseniz alttaki satırı açın */
+            /* background-image: url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1920'); */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Giriş Kutusu (Card) */
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.95); /* Beyaz, yarı saydam kart */
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Yumuşak gölge */
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            backdrop-filter: blur(5px); /* Kartın arkasını bulanıklaştırır */
+        }
+
+        /* Başlık */
+        .login-container h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        /* Hata Mesajları */
+        .errorlist {
+            color: #dc3545;
+            list-style: none;
+            padding: 0;
+            margin-bottom: 15px;
+            font-size: 14px;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 6px;
+            padding: 10px;
+        }
+
+        /* Form Elemanları (input alanları) */
+        .login-container p {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-container label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box; /* Padding'i genişliğe dahil et */
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .login-container input:focus {
+            border-color: #007bff; /* Odaklanıldığında mavi çerçeve */
+            outline: none;
+        }
+
+        /* Giriş Butonu */
+        .login-container button {
+            width: 100%;
+            background-color: #007bff; /* Canlı mavi */
+            color: white;
+            padding: 15px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .login-container button:hover {
+            background-color: #0056b3; /* Hover rengi */
+        }
+
+        /* Alt Linkler (Şifremi unuttum, Üye ol) */
+        .login-links {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-links a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 5px;
+        }
+
+        .login-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Geri Dön Linki */
+        .back-home {
+            margin-top: 15px;
+            display: inline-block;
+            font-size: 14px;
+            color: #888;
+            text-decoration: none;
+        }
+        .back-home:hover {
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
-    <div style="max-width: 400px; margin: 50px auto; font-family: Arial;">
+
+    <div class="login-container">
         <h2>Galeriye Giriş Yap</h2>
+
+        <!-- Hata mesajları varsa burada gösterilecek -->
+        {% if form.non_field_errors %}
+            <ul class="errorlist">
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" style="padding: 10px 20px;">Giriş Yap</button>
+            
+            <!-- Django'nun varsayılan form alanlarını render eder -->
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small style="color: #888; display: block; margin-top: 5px;">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% if field.errors %}
+                        <ul class="errorlist">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </p>
+            {% endfor %}
+
+            <button type="submit">Giriş Yap</button>
         </form>
+
+        <div class="login-links">
+            <!-- İleride şifre sıfırlama özelliği eklenebilir -->
+            <!-- <a href="#">Şifreni mi unuttun?</a> &nbsp;|&nbsp; -->
+            Henüz hesabın yok mu? <a href="/admin/">Yönetici paneline git</a> (veya özel üye ol sayfası oluştur).
+        </div>
+        
+        <a href="/" class="back-home">Ana Sayfaya Dön</a>
     </div>
+
 </body>
 </html>
