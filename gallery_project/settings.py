@@ -50,11 +50,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'gallery_project.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'], # Veya klasörün tam yolunu belirtiyoruz
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
