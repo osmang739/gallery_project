@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Giriş Yap</title>
+</head>
+<body>
+    <div style="max-width: 400px; margin: 50px auto; font-family: Arial;">
+        <h2>Galeriye Giriş Yap</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" style="padding: 10px 20px;">Giriş Yap</button>
+        </form>
+    </div>
+</body>
+</html>
